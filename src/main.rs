@@ -1,19 +1,21 @@
 extern crate cpal;
 extern crate libc;
 
-
-#[link(name = "minimal", kind = "static")]
+//mod blah {
+// #[link(name = "minimal", kind = "static")]
 extern {
-  fn init(samplerate: i32);
-
+  // fn fraust_init(samplerate: libc::c_int);
+  pub fn fraust_init(samplerate: i32);
+  pub fn fraust_compute(count: i32, input: *mut libc::c_float, output: *mut libc::c_float );
 }
+//}
 
 
 
 
 fn main() {
 
-    unsafe { init(44100); }
+    unsafe { fraust_init(44100); }
 
     let endpoint = cpal::get_default_endpoint().expect("Failed to get default endpoint");
     // let format = endpoint.get_supported_formats_list().unwrap().next().expect("Failed to get endpoint format");
@@ -21,9 +23,9 @@ fn main() {
     let mut channel = cpal::Voice::new(&endpoint, &format).expect("Failed to create a channel");
 
     // Produce a sinusoid of maximum amplitude.
-    // let mut data_source = (0u64..).map(|t| t as f32 * 440.0 * 2.0 * 3.141592 / format.samples_rate.0 as f32)     // 440 Hz
-    let mut data_source = (0u64..).map(|t| t as f32 * 220.0 * 2.0 * 3.141592 / format.samples_rate.0 as f32)     // 440 Hz
-                                  .map(|t| t.sin());
+    let mut data_source = (0u64..).map(|t| t as f32 * 440.0 * 2.0 * 3.141592 / format.samples_rate.0 as f32);     // 440 Hz
+    // let mut data_source = (0u64..).map(|t| t as f32 * 220.0 * 2.0 * 3.141592 / format.samples_rate.0 as f32)     // 440 Hz
+    //                              .map(|t| t.sin());
 
     loop {
         match channel.append_data(32768) {
@@ -52,8 +54,3 @@ fn main() {
     }
 }
 
-/*
-fn main() {
-    println!("Hello, world!");
-}
-*/

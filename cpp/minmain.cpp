@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[]) {
 
-  init(44100);
+  fraust_init(44100);
 
   float *mahbuf = new float[500];
   float *outbuf = new float[500];
@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 
   int count = 500;
 
-  compute(count, &mahbuf, &outbuf);
+  fraust_compute(count, &mahbuf, &outbuf);
   // compute(5, pmeh, pout);
 
   printf("blah!");
