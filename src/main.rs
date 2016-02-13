@@ -17,6 +17,18 @@ fn main() {
 
     unsafe { fraust_init(44100); }
 
+    let mut flts = [0.0;500];
+    flts[0] = 1.0;
+    
+    let mut outflts = [0.0;500];
+
+    unsafe { fraust_compute(500, flts.as_mut_ptr(), outflts.as_mut_ptr()); }
+
+    for f in outflts.iter()
+    {
+      println!("{}", f);
+    } 
+
     let endpoint = cpal::get_default_endpoint().expect("Failed to get default endpoint");
     // let format = endpoint.get_supported_formats_list().unwrap().next().expect("Failed to get endpoint format");
     let format = endpoint.get_supported_formats_list().unwrap().nth(200).expect("Failed to get endpoint format");

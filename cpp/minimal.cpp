@@ -305,10 +305,10 @@ extern "C" {
     mydsp_INSTANCE->init(samplerate);
   }
 
-  void fraust_compute(int len, float** inputs, float** outputs)
+  void fraust_compute(int len, float* inputs, float* outputs)
   // extern "C" void fraust_compute(int len, float** inputs, float** outputs)
   {
-    mydsp_INSTANCE->compute(len, inputs, outputs);   
+    mydsp_INSTANCE->compute(len, &inputs, &outputs);   
   }
 
 }
