@@ -288,14 +288,12 @@ class mydsp : public dsp {
 		}
 		
 	}
-
-	
 };
 
 /* The class factory, used to create and destroy mydsp objects in the
    client. Implemented using C linkage to facilitate dlopen access. */
 
-static dsp *mydsp_INSTANCE;
+static dsp *mydsp_INSTANCE = 0;
 
 //static void fraust_init(int samplerate) 
 extern "C" {
@@ -308,7 +306,8 @@ extern "C" {
   void fraust_compute(int len, float* inputs, float* outputs)
   // extern "C" void fraust_compute(int len, float** inputs, float** outputs)
   {
-    mydsp_INSTANCE->compute(len, &inputs, &outputs);   
+    if (mydsp_INSTANCE)
+      mydsp_INSTANCE->compute(len, &inputs, &outputs);   
   }
 
 }
